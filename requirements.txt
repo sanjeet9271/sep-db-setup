@@ -1,0 +1,9 @@
+# Database connection and management
+psycopg2-binary==2.9.9
+
+# Environment variable management
+python-dotenv==1.0.0
+
+# Alternative: Use psycopg2 if you have PostgreSQL development libraries installed
+# psycopg2==2.9.9
+
