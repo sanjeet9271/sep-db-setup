@@ -6,7 +6,7 @@
 -- ============================================================================
 
 -- Drop table if exists (use with caution in production)
-DROP TABLE IF EXISTS technician CASCADE;
+-- DROP TABLE IF EXISTS technician CASCADE;
 
 -- Create technician table
 CREATE TABLE technician (

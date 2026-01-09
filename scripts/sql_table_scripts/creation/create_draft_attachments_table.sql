@@ -8,16 +8,35 @@
 -- Drop table if exists (use with caution in production)
 -- DROP TABLE IF EXISTS draft_attachments CASCADE;
 
+-- ============================================================================
+-- Function to generate attachment_id with prefix att_
+-- ============================================================================
+CREATE OR REPLACE FUNCTION generate_attachment_id()
+RETURNS varchar(10) AS $$
+DECLARE
+    chars TEXT := 'abcdefghjkmnpqrstuvwxyz23456789'; -- Lowercase + exclude confusing chars
+    result TEXT := 'att_';
+    i INTEGER;
+BEGIN
+    FOR i IN 1..4 LOOP
+        result := result || substr(chars, floor(random() * length(chars) + 1)::int, 1);
+    END LOOP;
+    RETURN result;
+END;
+$$ LANGUAGE plpgsql VOLATILE;
+
+-- ============================================================================
 -- Create draft_attachments table
+-- ============================================================================
 CREATE TABLE draft_attachments (
-    attachment_id VARCHAR(10) PRIMARY KEY,         -- Auto-generated (e.g., att_x7k2)
-    draft_id VARCHAR(6) NOT NULL,                  -- References case_drafts
-    file_name VARCHAR(255) NOT NULL,               -- Original filename
-    content_type VARCHAR(100),                     -- MIME type (e.g., image/png)
-    s3_key VARCHAR(500) NOT NULL,                  -- S3 path in our bucket
-    sync_status VARCHAR(20) NOT NULL DEFAULT 'uploaded',  -- uploaded|syncing|synced|sync_failed
-    sync_error TEXT,                               -- Error on sync failure
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), -- Creation timestamp
+    attachment_id VARCHAR(10) PRIMARY KEY DEFAULT generate_attachment_id(),
+    draft_id VARCHAR(6) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    content_type VARCHAR(100),
+    s3_key VARCHAR(500) NOT NULL,
+    sync_status VARCHAR(20) NOT NULL DEFAULT 'uploaded',
+    sync_error TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     
     CONSTRAINT fk_draft_attachments_draft
         FOREIGN KEY (draft_id) REFERENCES case_drafts(draft_id) ON DELETE CASCADE
@@ -62,8 +81,8 @@ COMMENT ON COLUMN draft_attachments.sync_status IS 'Sync status: uploaded, synci
 COMMENT ON COLUMN draft_attachments.sync_error IS 'Error message if sync failed';
 COMMENT ON COLUMN draft_attachments.created_at IS 'Timestamp when attachment was uploaded';
 
-
-
-
-
-
+-- Display success message
+DO $$
+BEGIN
+    RAISE NOTICE '✓ draft_attachments table created with auto-generated attachment_id (att_xxxx)';
+END $$;

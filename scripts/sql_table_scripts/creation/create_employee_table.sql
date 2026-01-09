@@ -6,7 +6,7 @@
 -- ============================================================================
 
 -- Drop table if exists (use with caution in production)
-DROP TABLE IF EXISTS employee CASCADE;
+-- DROP TABLE IF EXISTS employee CASCADE;
 
 -- Create employee table
 CREATE TABLE employee (

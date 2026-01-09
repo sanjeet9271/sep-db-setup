@@ -6,7 +6,7 @@
 -- ============================================================================
 
 -- Drop table if exists (use with caution in production)
-DROP TABLE IF EXISTS contact CASCADE;
+-- DROP TABLE IF EXISTS contact CASCADE;
 
 -- Create contact table
 CREATE TABLE contact (

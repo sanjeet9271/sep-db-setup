@@ -6,7 +6,7 @@
 -- ============================================================================
 
 -- Drop table if exists (use with caution in production)
-DROP TABLE IF EXISTS service__parts CASCADE;
+-- DROP TABLE IF EXISTS service__parts CASCADE;
 
 -- Create service__parts table
 CREATE TABLE service__parts (

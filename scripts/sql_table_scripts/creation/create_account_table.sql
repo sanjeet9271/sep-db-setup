@@ -6,7 +6,7 @@
 -- ============================================================================
 
 -- Drop table if exists (use with caution in production)
-DROP TABLE IF EXISTS account CASCADE;
+-- DROP TABLE IF EXISTS account CASCADE;
 
 -- Create account table
 CREATE TABLE account (

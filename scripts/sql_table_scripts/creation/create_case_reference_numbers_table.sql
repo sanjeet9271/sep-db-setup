@@ -3,7 +3,7 @@
 -- ============================================================
 -- Links MTP reference numbers to Salesforce case IDs
 
-DROP TABLE IF EXISTS case_reference_numbers CASCADE;
+-- DROP TABLE IF EXISTS case_reference_numbers CASCADE;
 
 CREATE TABLE case_reference_numbers (
     mtp_reference_number VARCHAR(50) PRIMARY KEY,

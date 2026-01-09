@@ -6,7 +6,7 @@
 -- ============================================================================
 
 -- Drop table if exists (use with caution in production)
-DROP TABLE IF EXISTS inventory CASCADE;
+-- DROP TABLE IF EXISTS inventory CASCADE;
 
 -- Create inventory table
 CREATE TABLE inventory (
