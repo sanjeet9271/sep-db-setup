@@ -6,51 +6,71 @@
 -- ============================================================================
 
 -- ============================================================================
--- 1. case_drafts.draft_id - Must be exactly 6 hex characters
+-- 1. case_drafts.draft_id - Must be exactly 7 hex characters
 -- ============================================================================
 
+-- Drop existing constraint if present
+ALTER TABLE case_drafts
+DROP CONSTRAINT IF EXISTS check_draft_id_format;
+
+-- Add constraint
 ALTER TABLE case_drafts
 ADD CONSTRAINT check_draft_id_format
 CHECK (
-    LENGTH(draft_id) = 6 
-    AND draft_id ~ '^[0-9A-Fa-f]{6}$'  -- Hex characters only
+    LENGTH(draft_id) = 7 
+    AND draft_id ~ '^[0-9A-Fa-f]{7}$'  -- Hex characters only
 );
 
 COMMENT ON CONSTRAINT check_draft_id_format ON case_drafts 
-IS 'Ensures draft_id is exactly 6 hexadecimal characters (e.g., A3F8E2)';
+IS 'Ensures draft_id is exactly 7 hexadecimal characters (e.g., A3F8E2C)';
 
 -- ============================================================================
--- 2. draft_attachments.attachment_id - Must be att_ + 8 hex characters
+-- 2. draft_attachments.attachment_id - Must be d_att_ + 8 hex characters
 -- ============================================================================
 
+-- Drop existing constraint if present
+ALTER TABLE draft_attachments
+DROP CONSTRAINT IF EXISTS check_attachment_id_format;
+
+-- Add updated constraint
 ALTER TABLE draft_attachments
 ADD CONSTRAINT check_attachment_id_format
 CHECK (
-    LENGTH(attachment_id) = 12 
-    AND attachment_id ~ '^att_[0-9a-f]{8}$'  -- att_ + 8 lowercase hex
+    LENGTH(attachment_id) = 14 
+    AND attachment_id ~ '^d_att_[0-9a-f]{8}$'  -- d_att_ + 8 lowercase hex
 );
 
 COMMENT ON CONSTRAINT check_attachment_id_format ON draft_attachments 
-IS 'Ensures attachment_id format: att_XXXXXXXX (8 hex chars)';
+IS 'Ensures attachment_id format: d_att_XXXXXXXX (draft attachment)';
 
 -- ============================================================================
--- 3. case_attachments.attachment_id - Must be att_ + 8 hex characters
+-- 3. case_attachments.attachment_id - Must be c_att_ + 8 hex characters
 -- ============================================================================
 
+-- Drop existing constraint if present
+ALTER TABLE case_attachments
+DROP CONSTRAINT IF EXISTS check_attachment_id_format;
+
+-- Add updated constraint
 ALTER TABLE case_attachments
 ADD CONSTRAINT check_attachment_id_format
 CHECK (
-    LENGTH(attachment_id) = 12 
-    AND attachment_id ~ '^att_[0-9a-f]{8}$'  -- att_ + 8 lowercase hex
+    LENGTH(attachment_id) = 14 
+    AND attachment_id ~ '^c_att_[0-9a-f]{8}$'  -- c_att_ + 8 lowercase hex
 );
 
 COMMENT ON CONSTRAINT check_attachment_id_format ON case_attachments 
-IS 'Ensures attachment_id format: att_XXXXXXXX (8 hex chars)';
+IS 'Ensures attachment_id format: c_att_XXXXXXXX (case attachment)';
 
 -- ============================================================================
 -- 4. case_comments.comment_id - Must be cmt_ + 8 hex characters
 -- ============================================================================
 
+-- Drop existing constraint if present
+ALTER TABLE case_comments
+DROP CONSTRAINT IF EXISTS check_comment_id_format;
+
+-- Add constraint
 ALTER TABLE case_comments
 ADD CONSTRAINT check_comment_id_format
 CHECK (
@@ -71,9 +91,9 @@ BEGIN
     RAISE NOTICE 'ID FORMAT CONSTRAINTS ADDED SUCCESSFULLY';
     RAISE NOTICE '=================================================================';
     RAISE NOTICE 'Constraints:';
-    RAISE NOTICE '  case_drafts.draft_id:              6 hex chars (e.g., A3F8E2)';
-    RAISE NOTICE '  draft_attachments.attachment_id:   att_XXXXXXXX (12 chars)';
-    RAISE NOTICE '  case_attachments.attachment_id:    att_XXXXXXXX (12 chars)';
+    RAISE NOTICE '  case_drafts.draft_id:              7 hex chars (e.g., A3F8E2C)';
+    RAISE NOTICE '  draft_attachments.attachment_id:   d_att_XXXXXXXX (14 chars)';
+    RAISE NOTICE '  case_attachments.attachment_id:    c_att_XXXXXXXX (14 chars)';
     RAISE NOTICE '  case_comments.comment_id:          cmt_XXXXXXXX (12 chars)';
     RAISE NOTICE '=================================================================';
     RAISE NOTICE 'All IDs will be validated against UUID-based format.';

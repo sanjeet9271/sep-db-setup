@@ -16,7 +16,7 @@ CREATE TABLE employee (
     email VARCHAR(255) NOT NULL,
     department VARCHAR(100) NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT true,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT TIMEZONE('UTC', NOW())
 );
 
 -- ============================================================================

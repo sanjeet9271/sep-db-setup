@@ -9,19 +9,12 @@
 DROP TABLE IF EXISTS case_attachments CASCADE;
 
 -- ============================================================================
--- Function to generate attachment_id with prefix att_
+-- Function to generate case attachment_id with prefix c_att_
 -- ============================================================================
-CREATE OR REPLACE FUNCTION generate_attachment_id()
-RETURNS varchar(10) AS $$
-DECLARE
-    chars TEXT := 'abcdefghjkmnpqrstuvwxyz23456789'; -- Lowercase + exclude confusing chars
-    result TEXT := 'att_';
-    i INTEGER;
+CREATE OR REPLACE FUNCTION generate_case_attachment_id()
+RETURNS varchar(14) AS $$
 BEGIN
-    FOR i IN 1..4 LOOP
-        result := result || substr(chars, floor(random() * length(chars) + 1)::int, 1);
-    END LOOP;
-    RETURN result;
+    RETURN 'c_att_' || lower(substring(replace(gen_random_uuid()::text, '-', ''), 1, 8));
 END;
 $$ LANGUAGE plpgsql VOLATILE;
 
@@ -29,7 +22,7 @@ $$ LANGUAGE plpgsql VOLATILE;
 -- Create case_attachments table
 -- ============================================================================
 CREATE TABLE case_attachments (
-    attachment_id VARCHAR(10) PRIMARY KEY DEFAULT generate_attachment_id(),
+    attachment_id VARCHAR(14) PRIMARY KEY DEFAULT generate_case_attachment_id(),
     case_id VARCHAR(18) NOT NULL,
     file_name VARCHAR(255) NOT NULL,
     content_type VARCHAR(100),
@@ -37,20 +30,19 @@ CREATE TABLE case_attachments (
     sync_status VARCHAR(20) DEFAULT 'pending',
     sf_attachment_id VARCHAR(18),
     sync_error TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT TIMEZONE('UTC', NOW())
 );
 
 -- ============================================================================
 -- CONSTRAINTS
 -- ============================================================================
 
--- CHECK constraint for attachment_id format (att_ + 4 characters)
+-- CHECK constraint for attachment_id format (c_att_ + 8 hex characters)
 ALTER TABLE case_attachments
 ADD CONSTRAINT check_attachment_id_format
 CHECK (
-    LENGTH(attachment_id) = 8 
-    AND attachment_id LIKE 'att_%'
-    AND LENGTH(SUBSTRING(attachment_id FROM 5)) = 4
+    length(attachment_id) = 14 
+    AND attachment_id ~ '^c_att_[0-9a-f]{8}$'
 );
 
 -- CHECK constraint for sync_status
@@ -92,7 +84,7 @@ CREATE INDEX idx_case_attachments_file_name ON case_attachments(file_name);
 -- ============================================================================
 
 COMMENT ON TABLE case_attachments IS 'File attachments to be synced to Salesforce cases';
-COMMENT ON COLUMN case_attachments.attachment_id IS 'Auto-generated attachment ID with format att_<4 chars> (e.g., att_c8m4)';
+COMMENT ON COLUMN case_attachments.attachment_id IS 'Auto-generated case attachment ID (e.g., c_att_b348abf4)';
 COMMENT ON COLUMN case_attachments.case_id IS 'References Salesforce Case ID (18 chars)';
 COMMENT ON COLUMN case_attachments.file_name IS 'Original file name';
 COMMENT ON COLUMN case_attachments.content_type IS 'MIME type (e.g., image/png, application/pdf)';
@@ -105,5 +97,5 @@ COMMENT ON COLUMN case_attachments.created_at IS 'Timestamp when attachment was 
 -- Display success message
 DO $$
 BEGIN
-    RAISE NOTICE '✓ case_attachments table created with auto-generated attachment_id (att_xxxx)';
+    RAISE NOTICE '✓ case_attachments table created with auto-generated attachment_id (c_att_xxxx)';
 END $$;

@@ -17,7 +17,7 @@ CREATE TABLE case_comments (
     sync_status VARCHAR(20) NOT NULL DEFAULT 'pending',  -- pending|syncing|synced|sync_failed
     sf_comment_id VARCHAR(18),                     -- SF CaseComment ID after sync
     sync_error TEXT,                               -- Error message on sync failure
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), -- Creation timestamp
+    created_at TIMESTAMPTZ NOT NULL DEFAULT TIMEZONE('UTC', NOW()), -- Creation timestamp
     
     CONSTRAINT fk_case_comments_case 
         FOREIGN KEY (case_id) REFERENCES cases(case_id) ON DELETE CASCADE,

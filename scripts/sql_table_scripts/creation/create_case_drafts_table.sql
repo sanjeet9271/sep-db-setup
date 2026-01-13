@@ -7,36 +7,11 @@
 -- Drop table if exists (use with caution)
 -- DROP TABLE IF EXISTS case_drafts CASCADE;
 
--- Function to generate unique random 6-character alphanumeric ID with retry logic
+-- Function to generate unique random 7-character hex ID using UUID
 CREATE OR REPLACE FUNCTION generate_draft_id()
-RETURNS varchar(6) AS $$
-DECLARE
-    chars TEXT := 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; -- Exclude confusing chars: 0,O,1,I
-    result TEXT := '';
-    i INTEGER;
-    attempts INTEGER := 0;
-    max_attempts INTEGER := 3;
+RETURNS varchar(7) AS $$
 BEGIN
-    LOOP
-        -- Generate random 6-character ID
-        result := '';
-        FOR i IN 1..6 LOOP
-            result := result || substr(chars, floor(random() * length(chars) + 1)::int, 1);
-        END LOOP;
-        
-        -- Check if this ID already exists
-        IF NOT EXISTS (SELECT 1 FROM case_drafts WHERE draft_id = result) THEN
-            RETURN result;
-        END IF;
-        
-        -- Increment attempts counter
-        attempts := attempts + 1;
-        
-        -- If max attempts reached, raise error
-        IF attempts >= max_attempts THEN
-            RAISE EXCEPTION 'Failed to generate unique draft_id after % attempts', max_attempts;
-        END IF;
-    END LOOP;
+    RETURN upper(substring(replace(gen_random_uuid()::text, '-', ''), 1, 7));
 END;
 $$ LANGUAGE plpgsql VOLATILE;
 
@@ -54,8 +29,8 @@ CREATE TABLE case_drafts (
     salesforce_case_id VARCHAR(18),
     submission_error TEXT,
     submitted_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT TIMEZONE('UTC', NOW()),
+    updated_at TIMESTAMPTZ DEFAULT TIMEZONE('UTC', NOW())
 );
 
 -- Create indexes for better query performance
@@ -72,7 +47,7 @@ CREATE INDEX idx_case_drafts_user_status ON case_drafts(user_id, submission_stat
 CREATE OR REPLACE FUNCTION update_case_drafts_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.updated_at = NOW();
+    NEW.updated_at = TIMEZONE('UTC', NOW());
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -94,7 +69,7 @@ CHECK (LENGTH(draft_id) = 6 AND draft_id != '');
 
 -- Comment on table and columns for documentation
 COMMENT ON TABLE case_drafts IS 'Stores draft case submissions with auto-generated 6-character draft IDs';
-COMMENT ON COLUMN case_drafts.draft_id IS 'Auto-generated unique 6-character alphanumeric ID (e.g., D3F8K2)';
+COMMENT ON COLUMN case_drafts.draft_id IS 'Auto-generated unique 7-character hex ID (e.g., A3F8E2C)';
 COMMENT ON COLUMN case_drafts.user_id IS 'Creator from TID token';
 COMMENT ON COLUMN case_drafts.case_type IS 'Type of case: WarrantyClaim, RMARepair, etc.';
 COMMENT ON COLUMN case_drafts.serial_number IS 'Serial number for display and filtering';

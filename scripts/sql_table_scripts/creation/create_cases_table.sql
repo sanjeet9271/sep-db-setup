@@ -22,7 +22,7 @@ CREATE TABLE cases (
     subject VARCHAR(255),                         -- Subject/title for display (not a reserved keyword in PostgreSQL)
     submitted_at TIMESTAMPTZ,                     -- Original submission date
     case_data JSONB NOT NULL,                     -- Full case details from SF
-    synced_at TIMESTAMPTZ NOT NULL DEFAULT NOW()  -- Last sync from Salesforce
+    synced_at TIMESTAMPTZ NOT NULL DEFAULT TIMEZONE('UTC', NOW())  -- Last sync from Salesforce
 );
 
 -- ============================================================================
