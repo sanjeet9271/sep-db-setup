@@ -1,0 +1,2685 @@
+{
+  "export_metadata": {
+    "timestamp": "2026-01-19T10:54:30.316169",
+    "database": "postgres",
+    "host": "gs-sep-aurora-cluster-v2-dev-instance-0.c34es0myy5lk.us-west-2.rds.amazonaws.com",
+    "port": 5432
+  },
+  "tables": [
+    {
+      "schema": "public",
+      "name": "account",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "fch__partyid",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "account__number",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "name",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 3,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "account__type",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "primary__address",
+          "data_type": "jsonb",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 5,
+          "udt_name": "jsonb"
+        },
+        {
+          "column_name": "primary__city",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 6,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "primary__state",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 7,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "primary__zip",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 8,
+          "udt_name": "varchar"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_16457_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "fch__partyid IS NOT NULL"
+        },
+        {
+          "constraint_name": "account_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "fch__partyid",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "account",
+          "foreign_column_name": "fch__partyid",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "account_pkey",
+          "indexdef": "CREATE UNIQUE INDEX account_pkey ON public.account USING btree (fch__partyid)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_account_account_number_trgm",
+          "indexdef": "CREATE INDEX idx_account_account_number_trgm ON public.account USING gin (account__number gin_trgm_ops)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "gin"
+        },
+        {
+          "indexname": "idx_account_name_btree",
+          "indexdef": "CREATE INDEX idx_account_name_btree ON public.account USING btree (name)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_account_name_trgm",
+          "indexdef": "CREATE INDEX idx_account_name_trgm ON public.account USING gin (name gin_trgm_ops)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "gin"
+        },
+        {
+          "indexname": "idx_account_primary_city",
+          "indexdef": "CREATE INDEX idx_account_primary_city ON public.account USING btree (upper((primary__address ->> 'city'::text)))",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_account_primary_country",
+          "indexdef": "CREATE INDEX idx_account_primary_country ON public.account USING btree (upper((primary__address ->> 'country'::text)))",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_account_primary_state",
+          "indexdef": "CREATE INDEX idx_account_primary_state ON public.account USING btree (upper((primary__address ->> 'state'::text)))",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_account_primary_street",
+          "indexdef": "CREATE INDEX idx_account_primary_street ON public.account USING btree (upper((primary__address ->> 'street'::text)))",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_account_primary_zip",
+          "indexdef": "CREATE INDEX idx_account_primary_zip ON public.account USING btree (upper((primary__address ->> 'postalCode'::text)))",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 240641,
+        "total_size_bytes": 79593472,
+        "table_size_bytes": 25075712,
+        "indexes_size_bytes": 54517760,
+        "total_size": "76 MB",
+        "table_size": "24 MB",
+        "indexes_size": "52 MB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "case_attachments",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "attachment_id",
+          "data_type": "character varying",
+          "character_maximum_length": 14,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": "generate_case_attachment_id()",
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "case_id",
+          "data_type": "character varying",
+          "character_maximum_length": 18,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "file_name",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 3,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "s3_key",
+          "data_type": "character varying",
+          "character_maximum_length": 500,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "sync_status",
+          "data_type": "character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": "'pending'::character varying",
+          "ordinal_position": 5,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "sf_attachment_id",
+          "data_type": "character varying",
+          "character_maximum_length": 18,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 6,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "sync_error",
+          "data_type": "text",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 7,
+          "udt_name": "text"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp with time zone",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": "timezone('UTC'::text, now())",
+          "ordinal_position": 8,
+          "udt_name": "timestamptz"
+        },
+        {
+          "column_name": "content_type",
+          "data_type": "character varying",
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 9,
+          "udt_name": "varchar"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_90014_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "attachment_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_90014_2_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "case_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_90014_3_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "file_name IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_90014_4_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "s3_key IS NOT NULL"
+        },
+        {
+          "constraint_name": "check_attachment_id_format",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "draft_attachments",
+          "foreign_column_name": "attachment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((length((attachment_id)::text) = 14) AND ((attachment_id)::text ~ '^c_att_[0-9a-f]{8}$'::text))"
+        },
+        {
+          "constraint_name": "check_attachment_id_format",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_attachments",
+          "foreign_column_name": "attachment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((length((attachment_id)::text) = 14) AND ((attachment_id)::text ~ '^d_att_[0-9a-f]{8}$'::text))"
+        },
+        {
+          "constraint_name": "check_attachment_id_format",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_attachments",
+          "foreign_column_name": "attachment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((length((attachment_id)::text) = 14) AND ((attachment_id)::text ~ '^c_att_[0-9a-f]{8}$'::text))"
+        },
+        {
+          "constraint_name": "check_attachment_id_format",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "draft_attachments",
+          "foreign_column_name": "attachment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((length((attachment_id)::text) = 14) AND ((attachment_id)::text ~ '^d_att_[0-9a-f]{8}$'::text))"
+        },
+        {
+          "constraint_name": "check_attachment_sync_status",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_attachments",
+          "foreign_column_name": "sync_status",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((sync_status)::text = ANY ((ARRAY['pending'::character varying, 'syncing'::character varying, 'synced'::character varying, 'sync_failed'::character varying])::text[]))"
+        },
+        {
+          "constraint_name": "case_attachments_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "attachment_id",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_attachments",
+          "foreign_column_name": "attachment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "case_attachments_pkey",
+          "indexdef": "CREATE UNIQUE INDEX case_attachments_pkey ON public.case_attachments USING btree (attachment_id)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_attachments_case_id",
+          "indexdef": "CREATE INDEX idx_case_attachments_case_id ON public.case_attachments USING btree (case_id)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_attachments_created_at",
+          "indexdef": "CREATE INDEX idx_case_attachments_created_at ON public.case_attachments USING btree (created_at DESC)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_attachments_sf_attachment_id",
+          "indexdef": "CREATE INDEX idx_case_attachments_sf_attachment_id ON public.case_attachments USING btree (sf_attachment_id)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_attachments_sync_status",
+          "indexdef": "CREATE INDEX idx_case_attachments_sync_status ON public.case_attachments USING btree (sync_status)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 18954,
+        "total_size_bytes": 19054592,
+        "table_size_bytes": 11509760,
+        "indexes_size_bytes": 7544832,
+        "total_size": "18 MB",
+        "table_size": "11 MB",
+        "indexes_size": "7368 kB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "case_comments",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "comment_id",
+          "data_type": "character varying",
+          "character_maximum_length": 12,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": "generate_comment_id()",
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "case_id",
+          "data_type": "character varying",
+          "character_maximum_length": 18,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "body",
+          "data_type": "text",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 3,
+          "udt_name": "text"
+        },
+        {
+          "column_name": "created_by",
+          "data_type": "character varying",
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "sync_status",
+          "data_type": "character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": "'pending'::character varying",
+          "ordinal_position": 5,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "sf_comment_id",
+          "data_type": "character varying",
+          "character_maximum_length": 18,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 6,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "sync_error",
+          "data_type": "text",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 7,
+          "udt_name": "text"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp with time zone",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": "timezone('UTC'::text, now())",
+          "ordinal_position": 8,
+          "udt_name": "timestamptz"
+        },
+        {
+          "column_name": "old_comment_id",
+          "data_type": "character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 9,
+          "udt_name": "varchar"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_89996_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "comment_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_89996_2_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "case_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_89996_3_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "body IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_89996_4_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "created_by IS NOT NULL"
+        },
+        {
+          "constraint_name": "check_comment_body_length",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_comments",
+          "foreign_column_name": "body",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "(length(body) <= 5000)"
+        },
+        {
+          "constraint_name": "check_comment_id_format",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_comments",
+          "foreign_column_name": "comment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((length((comment_id)::text) = 12) AND ((comment_id)::text ~ '^cmt_[0-9a-f]{8}$'::text))"
+        },
+        {
+          "constraint_name": "check_comment_sync_status",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_comments",
+          "foreign_column_name": "sync_status",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((sync_status)::text = ANY ((ARRAY['pending'::character varying, 'syncing'::character varying, 'synced'::character varying, 'sync_failed'::character varying])::text[]))"
+        },
+        {
+          "constraint_name": "case_comments_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "comment_id",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_comments",
+          "foreign_column_name": "comment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "case_comments_pkey",
+          "indexdef": "CREATE UNIQUE INDEX case_comments_pkey ON public.case_comments USING btree (comment_id)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_comments_case_id",
+          "indexdef": "CREATE INDEX idx_case_comments_case_id ON public.case_comments USING btree (case_id)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_comments_created_at",
+          "indexdef": "CREATE INDEX idx_case_comments_created_at ON public.case_comments USING btree (created_at DESC)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_comments_created_by",
+          "indexdef": "CREATE INDEX idx_case_comments_created_by ON public.case_comments USING btree (created_by)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_comments_sf_comment_id",
+          "indexdef": "CREATE INDEX idx_case_comments_sf_comment_id ON public.case_comments USING btree (sf_comment_id)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_comments_sync_status",
+          "indexdef": "CREATE INDEX idx_case_comments_sync_status ON public.case_comments USING btree (sync_status)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 56979,
+        "total_size_bytes": 99237888,
+        "table_size_bytes": 70148096,
+        "indexes_size_bytes": 29089792,
+        "total_size": "95 MB",
+        "table_size": "67 MB",
+        "indexes_size": "28 MB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "case_drafts",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "draft_id",
+          "data_type": "character varying",
+          "character_maximum_length": 7,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": "generate_draft_id()",
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "user_id",
+          "data_type": "character varying",
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "case_type",
+          "data_type": "character varying",
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "serial_number",
+          "data_type": "character varying",
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 5,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "product_description",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 6,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "subject",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 7,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "case_data",
+          "data_type": "jsonb",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 8,
+          "udt_name": "jsonb"
+        },
+        {
+          "column_name": "submission_status",
+          "data_type": "character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": "'draft'::character varying",
+          "ordinal_position": 9,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "salesforce_case_id",
+          "data_type": "character varying",
+          "character_maximum_length": 18,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 10,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "submission_error",
+          "data_type": "text",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 11,
+          "udt_name": "text"
+        },
+        {
+          "column_name": "submitted_at",
+          "data_type": "timestamp with time zone",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 12,
+          "udt_name": "timestamptz"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp with time zone",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": "timezone('UTC'::text, now())",
+          "ordinal_position": 13,
+          "udt_name": "timestamptz"
+        },
+        {
+          "column_name": "updated_at",
+          "data_type": "timestamp with time zone",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": "timezone('UTC'::text, now())",
+          "ordinal_position": 14,
+          "udt_name": "timestamptz"
+        },
+        {
+          "column_name": "part_number",
+          "data_type": "character varying",
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 15,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "old_draft_id",
+          "data_type": "character varying",
+          "character_maximum_length": 6,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 16,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "old_draft_id_v2",
+          "data_type": "character varying",
+          "character_maximum_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 17,
+          "udt_name": "varchar"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_89923_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "draft_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_89923_2_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "user_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "check_draft_id_format",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_drafts",
+          "foreign_column_name": "draft_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((length((draft_id)::text) = 7) AND ((draft_id)::text ~ '^[0-9A-Fa-f]{7}$'::text))"
+        },
+        {
+          "constraint_name": "check_submission_status",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_drafts",
+          "foreign_column_name": "submission_status",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((submission_status)::text = ANY ((ARRAY['draft'::character varying, 'submitting'::character varying, 'submitted'::character varying, 'submission_failed'::character varying])::text[]))"
+        },
+        {
+          "constraint_name": "case_drafts_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "draft_id",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_drafts",
+          "foreign_column_name": "draft_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "case_drafts_pkey",
+          "indexdef": "CREATE UNIQUE INDEX case_drafts_pkey ON public.case_drafts USING btree (draft_id)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_drafts_case_type",
+          "indexdef": "CREATE INDEX idx_case_drafts_case_type ON public.case_drafts USING btree (case_type)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_drafts_part_number",
+          "indexdef": "CREATE INDEX idx_case_drafts_part_number ON public.case_drafts USING btree (part_number)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_drafts_serial_number",
+          "indexdef": "CREATE INDEX idx_case_drafts_serial_number ON public.case_drafts USING btree (serial_number)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_drafts_submission_status",
+          "indexdef": "CREATE INDEX idx_case_drafts_submission_status ON public.case_drafts USING btree (submission_status)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_drafts_user_id",
+          "indexdef": "CREATE INDEX idx_case_drafts_user_id ON public.case_drafts USING btree (user_id)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_drafts_user_status",
+          "indexdef": "CREATE INDEX idx_case_drafts_user_status ON public.case_drafts USING btree (user_id, submission_status)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 24,
+        "total_size_bytes": 229376,
+        "table_size_bytes": 57344,
+        "indexes_size_bytes": 172032,
+        "total_size": "224 kB",
+        "table_size": "56 kB",
+        "indexes_size": "168 kB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "case_reference_numbers",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "mtp_reference_number",
+          "data_type": "character varying",
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "case_id",
+          "data_type": "character varying",
+          "character_maximum_length": 18,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_93773_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "mtp_reference_number IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_93773_2_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "case_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "case_reference_numbers_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "mtp_reference_number",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_reference_numbers",
+          "foreign_column_name": "mtp_reference_number",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "case_reference_numbers_pkey",
+          "indexdef": "CREATE UNIQUE INDEX case_reference_numbers_pkey ON public.case_reference_numbers USING btree (mtp_reference_number)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_case_reference_numbers_case_id",
+          "indexdef": "CREATE INDEX idx_case_reference_numbers_case_id ON public.case_reference_numbers USING btree (case_id)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 5,
+        "total_size_bytes": 40960,
+        "table_size_bytes": 8192,
+        "indexes_size_bytes": 32768,
+        "total_size": "40 kB",
+        "table_size": "8192 bytes",
+        "indexes_size": "32 kB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "cases",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "case_id",
+          "data_type": "character varying",
+          "character_maximum_length": 18,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "case_number",
+          "data_type": "character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "case_type",
+          "data_type": "character varying",
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 3,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "account_id",
+          "data_type": "character varying",
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "status",
+          "data_type": "character varying",
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 5,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "progress",
+          "data_type": "integer",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 6,
+          "udt_name": "int4"
+        },
+        {
+          "column_name": "serial_number",
+          "data_type": "character varying",
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 7,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "product_description",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 8,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "subject",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 9,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "submitted_at",
+          "data_type": "timestamp with time zone",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 10,
+          "udt_name": "timestamptz"
+        },
+        {
+          "column_name": "case_data",
+          "data_type": "jsonb",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 11,
+          "udt_name": "jsonb"
+        },
+        {
+          "column_name": "synced_at",
+          "data_type": "timestamp with time zone",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": "timezone('UTC'::text, now())",
+          "ordinal_position": 12,
+          "udt_name": "timestamptz"
+        },
+        {
+          "column_name": "part_number",
+          "data_type": "character varying",
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 13,
+          "udt_name": "varchar"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_17279_11_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "case_data IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17279_12_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "synced_at IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17279_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "case_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17279_2_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "case_number IS NOT NULL"
+        },
+        {
+          "constraint_name": "cases_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "case_id",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "cases",
+          "foreign_column_name": "case_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "cases_pkey",
+          "indexdef": "CREATE UNIQUE INDEX cases_pkey ON public.cases USING btree (case_id)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_account_id",
+          "indexdef": "CREATE INDEX idx_cases_account_id ON public.cases USING btree (account_id)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_account_status",
+          "indexdef": "CREATE INDEX idx_cases_account_status ON public.cases USING btree (account_id, status)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_case_data",
+          "indexdef": "CREATE INDEX idx_cases_case_data ON public.cases USING gin (case_data)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "gin"
+        },
+        {
+          "indexname": "idx_cases_case_data_external_status",
+          "indexdef": "CREATE INDEX idx_cases_case_data_external_status ON public.cases USING btree ((((case_data -> 'case'::text) ->> 'ExternalCaseStatus'::text)))",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_case_data_status",
+          "indexdef": "CREATE INDEX idx_cases_case_data_status ON public.cases USING btree ((((case_data -> 'case'::text) ->> 'Status'::text)))",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_case_type",
+          "indexdef": "CREATE INDEX idx_cases_case_type ON public.cases USING btree (case_type)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_part_number",
+          "indexdef": "CREATE INDEX idx_cases_part_number ON public.cases USING btree (part_number)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_serial_number",
+          "indexdef": "CREATE INDEX idx_cases_serial_number ON public.cases USING btree (serial_number)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_status",
+          "indexdef": "CREATE INDEX idx_cases_status ON public.cases USING btree (status)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_submitted_at",
+          "indexdef": "CREATE INDEX idx_cases_submitted_at ON public.cases USING btree (submitted_at DESC)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_synced_at",
+          "indexdef": "CREATE INDEX idx_cases_synced_at ON public.cases USING btree (synced_at DESC)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_cases_type_status",
+          "indexdef": "CREATE INDEX idx_cases_type_status ON public.cases USING btree (case_type, status)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "ux_cases_case_number",
+          "indexdef": "CREATE UNIQUE INDEX ux_cases_case_number ON public.cases USING btree (case_number)",
+          "is_unique": true,
+          "is_primary": false,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 300182,
+        "total_size_bytes": 890142720,
+        "table_size_bytes": 447225856,
+        "indexes_size_bytes": 442916864,
+        "total_size": "849 MB",
+        "table_size": "427 MB",
+        "indexes_size": "422 MB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "contact",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "email",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "status",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "fch__partyid",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 3,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "first__name",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "last__name",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 5,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "phone__number",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 6,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "phone__number__external",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 7,
+          "udt_name": "varchar"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_16541_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "email IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_16541_3_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "fch__partyid IS NOT NULL"
+        },
+        {
+          "constraint_name": "contact_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "email",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "contact",
+          "foreign_column_name": "email",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "contact_pkey",
+          "indexdef": "CREATE UNIQUE INDEX contact_pkey ON public.contact USING btree (email)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_contact_email_covering",
+          "indexdef": "CREATE INDEX idx_contact_email_covering ON public.contact USING btree (email) INCLUDE (first__name, last__name, fch__partyid)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_contact_fch_partyid",
+          "indexdef": "CREATE INDEX idx_contact_fch_partyid ON public.contact USING btree (fch__partyid)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_contact_firstname_trgm",
+          "indexdef": "CREATE INDEX idx_contact_firstname_trgm ON public.contact USING gin (first__name gin_trgm_ops)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "gin"
+        },
+        {
+          "indexname": "idx_contact_lastname_trgm",
+          "indexdef": "CREATE INDEX idx_contact_lastname_trgm ON public.contact USING gin (last__name gin_trgm_ops)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "gin"
+        }
+      ],
+      "statistics": {
+        "row_count": 67313,
+        "total_size_bytes": 21323776,
+        "table_size_bytes": 6963200,
+        "indexes_size_bytes": 14360576,
+        "total_size": "20 MB",
+        "table_size": "6800 kB",
+        "indexes_size": "14 MB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "draft_attachments",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "attachment_id",
+          "data_type": "character varying",
+          "character_maximum_length": 14,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": "generate_draft_attachment_id()",
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "draft_id",
+          "data_type": "character varying",
+          "character_maximum_length": 7,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "file_name",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 3,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "s3_key",
+          "data_type": "character varying",
+          "character_maximum_length": 500,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "sync_status",
+          "data_type": "character varying",
+          "character_maximum_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": "'uploaded'::character varying",
+          "ordinal_position": 5,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "sync_error",
+          "data_type": "text",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 6,
+          "udt_name": "text"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp with time zone",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": "timezone('UTC'::text, now())",
+          "ordinal_position": 7,
+          "udt_name": "timestamptz"
+        },
+        {
+          "column_name": "content_type",
+          "data_type": "character varying",
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 8,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "meta",
+          "data_type": "jsonb",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 11,
+          "udt_name": "jsonb"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_17390_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "attachment_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17390_2_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "draft_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17390_3_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "file_name IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17390_4_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "s3_key IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17390_5_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "sync_status IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17390_7_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "created_at IS NOT NULL"
+        },
+        {
+          "constraint_name": "check_attachment_id_format",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "draft_attachments",
+          "foreign_column_name": "attachment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((length((attachment_id)::text) = 14) AND ((attachment_id)::text ~ '^c_att_[0-9a-f]{8}$'::text))"
+        },
+        {
+          "constraint_name": "check_attachment_id_format",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "draft_attachments",
+          "foreign_column_name": "attachment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((length((attachment_id)::text) = 14) AND ((attachment_id)::text ~ '^d_att_[0-9a-f]{8}$'::text))"
+        },
+        {
+          "constraint_name": "check_attachment_id_format",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_attachments",
+          "foreign_column_name": "attachment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((length((attachment_id)::text) = 14) AND ((attachment_id)::text ~ '^c_att_[0-9a-f]{8}$'::text))"
+        },
+        {
+          "constraint_name": "check_attachment_id_format",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": "public",
+          "foreign_table_name": "case_attachments",
+          "foreign_column_name": "attachment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "((length((attachment_id)::text) = 14) AND ((attachment_id)::text ~ '^d_att_[0-9a-f]{8}$'::text))"
+        },
+        {
+          "constraint_name": "draft_attachments_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "attachment_id",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "draft_attachments",
+          "foreign_column_name": "attachment_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "draft_attachments_pkey",
+          "indexdef": "CREATE UNIQUE INDEX draft_attachments_pkey ON public.draft_attachments USING btree (attachment_id)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_draft_attachments_created_at",
+          "indexdef": "CREATE INDEX idx_draft_attachments_created_at ON public.draft_attachments USING btree (created_at DESC)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_draft_attachments_draft_created",
+          "indexdef": "CREATE INDEX idx_draft_attachments_draft_created ON public.draft_attachments USING btree (draft_id, created_at DESC)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_draft_attachments_draft_id",
+          "indexdef": "CREATE INDEX idx_draft_attachments_draft_id ON public.draft_attachments USING btree (draft_id)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_draft_attachments_file_name",
+          "indexdef": "CREATE INDEX idx_draft_attachments_file_name ON public.draft_attachments USING btree (file_name)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_draft_attachments_meta",
+          "indexdef": "CREATE INDEX idx_draft_attachments_meta ON public.draft_attachments USING gin (meta)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "gin"
+        },
+        {
+          "indexname": "idx_draft_attachments_s3_key",
+          "indexdef": "CREATE INDEX idx_draft_attachments_s3_key ON public.draft_attachments USING btree (s3_key)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_draft_attachments_sync_created",
+          "indexdef": "CREATE INDEX idx_draft_attachments_sync_created ON public.draft_attachments USING btree (sync_status, created_at)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_draft_attachments_sync_status",
+          "indexdef": "CREATE INDEX idx_draft_attachments_sync_status ON public.draft_attachments USING btree (sync_status)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 32,
+        "total_size_bytes": 229376,
+        "table_size_bytes": 8192,
+        "indexes_size_bytes": 221184,
+        "total_size": "224 kB",
+        "table_size": "8192 bytes",
+        "indexes_size": "216 kB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "employee",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "id",
+          "data_type": "uuid",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": "gen_random_uuid()",
+          "ordinal_position": 1,
+          "udt_name": "uuid"
+        },
+        {
+          "column_name": "employee_code",
+          "data_type": "character varying",
+          "character_maximum_length": 50,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "name",
+          "data_type": "character varying",
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 3,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "email",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "department",
+          "data_type": "character varying",
+          "character_maximum_length": 100,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 5,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "is_active",
+          "data_type": "boolean",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": "true",
+          "ordinal_position": 6,
+          "udt_name": "bool"
+        },
+        {
+          "column_name": "created_at",
+          "data_type": "timestamp with time zone",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": "timezone('UTC'::text, now())",
+          "ordinal_position": 7,
+          "udt_name": "timestamptz"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_17193_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "id IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17193_2_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "employee_code IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17193_3_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "name IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17193_4_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "email IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17193_5_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "department IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17193_6_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "is_active IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_17193_7_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "created_at IS NOT NULL"
+        },
+        {
+          "constraint_name": "employee_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "id",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "employee",
+          "foreign_column_name": "id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        },
+        {
+          "constraint_name": "employee_email_key",
+          "constraint_type": "UNIQUE",
+          "column_name": "email",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "employee",
+          "foreign_column_name": "email",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        },
+        {
+          "constraint_name": "employee_employee_code_key",
+          "constraint_type": "UNIQUE",
+          "column_name": "employee_code",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "employee",
+          "foreign_column_name": "employee_code",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "employee_email_key",
+          "indexdef": "CREATE UNIQUE INDEX employee_email_key ON public.employee USING btree (email)",
+          "is_unique": true,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "employee_employee_code_key",
+          "indexdef": "CREATE UNIQUE INDEX employee_employee_code_key ON public.employee USING btree (employee_code)",
+          "is_unique": true,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "employee_pkey",
+          "indexdef": "CREATE UNIQUE INDEX employee_pkey ON public.employee USING btree (id)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_employee_department",
+          "indexdef": "CREATE INDEX idx_employee_department ON public.employee USING btree (department)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_employee_email",
+          "indexdef": "CREATE INDEX idx_employee_email ON public.employee USING btree (email)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 1,
+        "total_size_bytes": 131072,
+        "table_size_bytes": 8192,
+        "indexes_size_bytes": 122880,
+        "total_size": "128 kB",
+        "table_size": "8192 bytes",
+        "indexes_size": "120 kB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "inventory",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "unique_id",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "serial__number",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "part__number",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 3,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "fch__partyid",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_16695_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "unique_id IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_16695_4_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "fch__partyid IS NOT NULL"
+        },
+        {
+          "constraint_name": "inventory_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "unique_id",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "inventory",
+          "foreign_column_name": "unique_id",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "idx_inventory_fch_partyid",
+          "indexdef": "CREATE INDEX idx_inventory_fch_partyid ON public.inventory USING btree (fch__partyid)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_inventory_part_trgm",
+          "indexdef": "CREATE INDEX idx_inventory_part_trgm ON public.inventory USING gin (part__number gin_trgm_ops)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "gin"
+        },
+        {
+          "indexname": "idx_inventory_serial_covering",
+          "indexdef": "CREATE INDEX idx_inventory_serial_covering ON public.inventory USING btree (serial__number) INCLUDE (part__number, fch__partyid)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_inventory_serial_part",
+          "indexdef": "CREATE INDEX idx_inventory_serial_part ON public.inventory USING btree (serial__number, part__number)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_inventory_serial_trgm",
+          "indexdef": "CREATE INDEX idx_inventory_serial_trgm ON public.inventory USING gin (serial__number gin_trgm_ops)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "gin"
+        },
+        {
+          "indexname": "inventory_pkey",
+          "indexdef": "CREATE UNIQUE INDEX inventory_pkey ON public.inventory USING btree (unique_id)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 8860101,
+        "total_size_bytes": 2746957824,
+        "table_size_bytes": 910237696,
+        "indexes_size_bytes": 1836720128,
+        "total_size": "2620 MB",
+        "table_size": "868 MB",
+        "indexes_size": "1752 MB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "service__parts",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "product__modelname",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "service__partnumber",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "part__description",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 3,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "gs__business__area",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "business__area",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 5,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "service__type",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 6,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "part__labour__hours",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 7,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "part__type",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 8,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "part__return",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 9,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "accessory",
+          "data_type": "boolean",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 10,
+          "udt_name": "bool"
+        },
+        {
+          "column_name": "ismultipack",
+          "data_type": "boolean",
+          "character_maximum_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 11,
+          "udt_name": "bool"
+        },
+        {
+          "column_name": "multipack__qty",
+          "data_type": "integer",
+          "character_maximum_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 12,
+          "udt_name": "int4"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_16603_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "product__modelname IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_16603_2_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "service__partnumber IS NOT NULL"
+        },
+        {
+          "constraint_name": "service__parts_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "product__modelname",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "service__parts",
+          "foreign_column_name": "product__modelname",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        },
+        {
+          "constraint_name": "service__parts_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "product__modelname",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "service__parts",
+          "foreign_column_name": "service__partnumber",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        },
+        {
+          "constraint_name": "service__parts_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "service__partnumber",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "service__parts",
+          "foreign_column_name": "product__modelname",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        },
+        {
+          "constraint_name": "service__parts_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "service__partnumber",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "service__parts",
+          "foreign_column_name": "service__partnumber",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "idx_service_parts_partnumber",
+          "indexdef": "CREATE INDEX idx_service_parts_partnumber ON public.service__parts USING btree (service__partnumber)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_service_parts_partnumber_trgm",
+          "indexdef": "CREATE INDEX idx_service_parts_partnumber_trgm ON public.service__parts USING gin (service__partnumber gin_trgm_ops)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "gin"
+        },
+        {
+          "indexname": "idx_service_parts_product_model",
+          "indexdef": "CREATE INDEX idx_service_parts_product_model ON public.service__parts USING btree (product__modelname)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "service__parts_pkey",
+          "indexdef": "CREATE UNIQUE INDEX service__parts_pkey ON public.service__parts USING btree (product__modelname, service__partnumber)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 49321,
+        "total_size_bytes": 13041664,
+        "table_size_bytes": 7610368,
+        "indexes_size_bytes": 5431296,
+        "total_size": "12 MB",
+        "table_size": "7432 kB",
+        "indexes_size": "5304 kB"
+      }
+    },
+    {
+      "schema": "public",
+      "name": "technician",
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "column_name": "technician__email",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 1,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "product__modelname",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 2,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "technician__name",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "YES",
+          "column_default": null,
+          "ordinal_position": 3,
+          "udt_name": "varchar"
+        },
+        {
+          "column_name": "fch__partyid",
+          "data_type": "character varying",
+          "character_maximum_length": 255,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "is_nullable": "NO",
+          "column_default": null,
+          "ordinal_position": 4,
+          "udt_name": "varchar"
+        }
+      ],
+      "constraints": [
+        {
+          "constraint_name": "2200_16566_1_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "technician__email IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_16566_2_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "product__modelname IS NOT NULL"
+        },
+        {
+          "constraint_name": "2200_16566_4_not_null",
+          "constraint_type": "CHECK",
+          "column_name": null,
+          "foreign_table_schema": null,
+          "foreign_table_name": null,
+          "foreign_column_name": null,
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": "fch__partyid IS NOT NULL"
+        },
+        {
+          "constraint_name": "technician_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "technician__email",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "technician",
+          "foreign_column_name": "technician__email",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        },
+        {
+          "constraint_name": "technician_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "technician__email",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "technician",
+          "foreign_column_name": "product__modelname",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        },
+        {
+          "constraint_name": "technician_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "product__modelname",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "technician",
+          "foreign_column_name": "technician__email",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        },
+        {
+          "constraint_name": "technician_pkey",
+          "constraint_type": "PRIMARY KEY",
+          "column_name": "product__modelname",
+          "foreign_table_schema": "public",
+          "foreign_table_name": "technician",
+          "foreign_column_name": "product__modelname",
+          "update_rule": null,
+          "delete_rule": null,
+          "check_clause": null
+        }
+      ],
+      "indexes": [
+        {
+          "indexname": "idx_technician_account_product",
+          "indexdef": "CREATE INDEX idx_technician_account_product ON public.technician USING btree (fch__partyid, product__modelname)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_technician_email",
+          "indexdef": "CREATE INDEX idx_technician_email ON public.technician USING btree (technician__email)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "idx_technician_product_model",
+          "indexdef": "CREATE INDEX idx_technician_product_model ON public.technician USING btree (product__modelname)",
+          "is_unique": false,
+          "is_primary": false,
+          "index_type": "btree"
+        },
+        {
+          "indexname": "technician_pkey",
+          "indexdef": "CREATE UNIQUE INDEX technician_pkey ON public.technician USING btree (technician__email, product__modelname)",
+          "is_unique": true,
+          "is_primary": true,
+          "index_type": "btree"
+        }
+      ],
+      "statistics": {
+        "row_count": 106623,
+        "total_size_bytes": 24322048,
+        "table_size_bytes": 10625024,
+        "indexes_size_bytes": 13697024,
+        "total_size": "23 MB",
+        "table_size": "10 MB",
+        "indexes_size": "13 MB"
+      }
+    }
+  ]
+}

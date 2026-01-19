@@ -17,7 +17,7 @@ $$ LANGUAGE plpgsql VOLATILE;
 
 -- Create the case_drafts table
 CREATE TABLE case_drafts (
-    draft_id VARCHAR(6) PRIMARY KEY DEFAULT generate_draft_id(),
+    draft_id VARCHAR(7) PRIMARY KEY DEFAULT generate_draft_id(),
     user_id VARCHAR(100) NOT NULL,
     case_type VARCHAR(50),
     serial_number VARCHAR(100),
@@ -62,13 +62,13 @@ ALTER TABLE case_drafts
 ADD CONSTRAINT check_submission_status
 CHECK (submission_status IN ('draft', 'submitting', 'submitted', 'submission_failed'));
 
--- Add constraint to ensure draft_id is exactly 6 characters and not empty
+-- Add constraint to ensure draft_id is exactly 7 characters (hex format)
 ALTER TABLE case_drafts
-ADD CONSTRAINT check_draft_id_length
-CHECK (LENGTH(draft_id) = 6 AND draft_id != '');
+ADD CONSTRAINT check_draft_id_format
+CHECK (LENGTH(draft_id) = 7 AND draft_id ~ '^[0-9A-F]{7}$');
 
 -- Comment on table and columns for documentation
-COMMENT ON TABLE case_drafts IS 'Stores draft case submissions with auto-generated 6-character draft IDs';
+COMMENT ON TABLE case_drafts IS 'Stores draft case submissions with auto-generated 7-character draft IDs';
 COMMENT ON COLUMN case_drafts.draft_id IS 'Auto-generated unique 7-character hex ID (e.g., A3F8E2C)';
 COMMENT ON COLUMN case_drafts.user_id IS 'Creator from TID token';
 COMMENT ON COLUMN case_drafts.case_type IS 'Type of case: WarrantyClaim, RMARepair, etc.';
